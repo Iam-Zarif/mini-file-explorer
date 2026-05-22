@@ -4,7 +4,7 @@
   "type": "folder",
   "children": [
     {
-      "id": "folder-docs",
+      "id": "folder-documents",
       "name": "Documents",
       "type": "folder",
       "children": [
@@ -12,13 +12,13 @@
           "id": "file-welcome",
           "name": "welcome.txt",
           "type": "file",
-          "content": "Welcome to Mini File Explorer. You can create folders, create text files, rename, delete, and edit file content."
+          "content": "Welcome to Mini File Explorer.\n\nYou can create folders, create text files, rename items, delete items, and edit text file content."
         },
         {
           "id": "file-notes",
           "name": "notes.txt",
           "type": "file",
-          "content": "This is a sample note file."
+          "content": "This is a sample note file.\n\nTry editing this content and saving it."
         }
       ]
     },
@@ -36,7 +36,20 @@
               "id": "file-task",
               "name": "task.txt",
               "type": "file",
-              "content": "Build a clean Mini File Explorer using React, TypeScript, and Tailwind CSS."
+              "content": "Task: Build a clean Mini File Explorer using React, TypeScript, and Tailwind CSS."
+            }
+          ]
+        },
+        {
+          "id": "folder-design",
+          "name": "Design",
+          "type": "folder",
+          "children": [
+            {
+              "id": "file-style-guide",
+              "name": "style-guide.txt",
+              "type": "file",
+              "content": "Design goals:\n\n- Clean layout\n- Soft shadows\n- Rounded cards\n- Responsive structure\n- Simple and usable interactions"
             }
           ]
         }
