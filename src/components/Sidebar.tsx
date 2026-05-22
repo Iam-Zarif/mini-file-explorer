@@ -6,6 +6,7 @@ type SidebarProps = {
   selectedFolderId: string;
   openedFileId: string | null;
   expandedFolderIds: string[];
+  className?: string;
   onToggleFolder: (folderId: string) => void;
   onSelectFolder: (folderId: string) => void;
   onOpenFile: (fileId: string) => void;
@@ -16,23 +17,28 @@ export default function Sidebar({
   selectedFolderId,
   openedFileId,
   expandedFolderIds,
+  className,
   onToggleFolder,
   onSelectFolder,
   onOpenFile,
 }: SidebarProps) {
   return (
-    <aside className="flex min-h-105 flex-col rounded-4xl border border-white/70 bg-white/85 p-4 shadow-sm shadow-slate-200/70 backdrop-blur-xl lg:min-h-0 lg:h-full">
+    <aside
+      className={`flex flex-col rounded-4xl border border-white/70 bg-white/85 p-4 shadow-sm shadow-slate-200/70 backdrop-blur-xl ${
+        className || "min-h-105 lg:min-h-0 lg:h-full"
+      }`}
+    >
       <div className="mb-5 shrink-0 border-b border-slate-100 pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex size-12 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-indigo-600 text-xl text-white shadow-lg shadow-blue-600/25">
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-indigo-600 text-lg text-white shadow-lg shadow-blue-600/25 lg:size-12 lg:text-xl">
             🗂️
           </div>
 
           <div className="min-w-0">
-            <h2 className="truncate text-base font-black text-slate-950">
+            <h2 className="truncate text-sm font-black text-slate-950 lg:text-base">
               Mini Explorer
             </h2>
-            <p className="text-xs font-medium text-slate-500">
+            <p className="text-[11px] font-medium text-slate-500 lg:text-xs">
               Folder tree view
             </p>
           </div>

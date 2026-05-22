@@ -43,9 +43,7 @@ export default function TreeItem({
     onOpenFile(node.id);
   };
 
-  const handleToggleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
+  const handleToggleClick = () => {
     if (isFolder) {
       onToggleFolder(node.id);
     }
@@ -60,9 +58,8 @@ export default function TreeItem({
           <span className="absolute left-0 top-5 h-px w-3 bg-slate-200" />
         )}
 
-        <button
-          onClick={handleItemClick}
-          className={`group flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-sm transition ${
+        <div
+          className={`group flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-xs transition lg:text-sm ${
             isSelectedFolder || isOpenedFile
               ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
               : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
@@ -73,7 +70,7 @@ export default function TreeItem({
               <button
                 type="button"
                 onClick={handleToggleClick}
-                className={`flex size-5 items-center justify-center rounded-md transition ${
+                className={`flex size-5 items-center justify-center rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 ${
                   isSelectedFolder
                     ? "text-white hover:bg-white/15"
                     : "text-slate-400 hover:bg-slate-200 hover:text-slate-700"
@@ -91,32 +88,38 @@ export default function TreeItem({
             )}
           </span>
 
-          <span className="shrink-0 text-lg">
-            {isFolder ? (
-              isExpanded ? (
-                <FiFolderMinus />
+          <button
+            type="button"
+            onClick={handleItemClick}
+            className="flex min-w-0 flex-1 items-center gap-2 text-left text-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+          >
+            <span className="shrink-0 text-base lg:text-lg">
+              {isFolder ? (
+                isExpanded ? (
+                  <FiFolderMinus />
+                ) : (
+                  <FiFolder />
+                )
               ) : (
-                <FiFolder />
-              )
-            ) : (
-              <FiFileText />
-            )}
-          </span>
-
-          <span className="truncate font-bold">{node.name}</span>
-
-          {isFolder && hasChildren && (
-            <span
-              className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-black ${
-                isSelectedFolder
-                  ? "bg-white/15 text-white"
-                  : "bg-slate-100 text-slate-400"
-              }`}
-            >
-              {node.children?.length}
+                <FiFileText />
+              )}
             </span>
-          )}
-        </button>
+
+            <span className="truncate font-bold">{node.name}</span>
+
+            {isFolder && hasChildren && (
+              <span
+                className={`ml-auto rounded-full px-2 py-0.5 text-[9px] font-black lg:text-[10px] ${
+                  isSelectedFolder
+                    ? "bg-white/15 text-white"
+                    : "bg-slate-100 text-slate-400"
+                }`}
+              >
+                {node.children?.length}
+              </span>
+            )}
+          </button>
+        </div>
 
         {isFolder && isExpanded && node.children && (
           <div className="mt-1 space-y-1">
