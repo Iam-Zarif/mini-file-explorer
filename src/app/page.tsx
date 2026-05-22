@@ -33,6 +33,7 @@ export default function Home() {
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [modalValue, setModalValue] = useState("");
   const [targetNode, setTargetNode] = useState<FileNode | null>(null);
+  const [saveMessage, setSaveMessage] = useState("");
 
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
@@ -49,6 +50,16 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fileSystem));
   }, [fileSystem]);
+
+  useEffect(() => {
+    if (!saveMessage) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setSaveMessage("");
+    }, 2200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [saveMessage]);
 
   const selectedFolder = useMemo(() => {
     const folder = findNodeById(fileSystem, selectedFolderId);
@@ -75,6 +86,7 @@ export default function Home() {
   const openFolder = (folderId: string) => {
     setSelectedFolderId(folderId);
     setOpenedFileId(null);
+    setSaveMessage("");
 
     setExpandedFolderIds((currentIds) =>
       currentIds.includes(folderId) ? currentIds : [...currentIds, folderId],
@@ -83,11 +95,18 @@ export default function Home() {
 
   const openFile = (fileId: string) => {
     setOpenedFileId(fileId);
+    setSaveMessage("");
 
     const parentFolderId = getParentFolderId(fileSystem, fileId);
 
     if (parentFolderId) {
       setSelectedFolderId(parentFolderId);
+
+      setExpandedFolderIds((currentIds) =>
+        currentIds.includes(parentFolderId)
+          ? currentIds
+          : [...currentIds, parentFolderId],
+      );
     }
   };
 
@@ -119,6 +138,12 @@ export default function Home() {
       setFileSystem((currentTree) =>
         addNodeToFolder(currentTree, selectedFolderId, newFolder),
       );
+
+      setExpandedFolderIds((currentIds) =>
+        currentIds.includes(selectedFolderId)
+          ? currentIds
+          : [...currentIds, selectedFolderId],
+      );
     }
 
     if (modalMode === "create-file") {
@@ -135,6 +160,12 @@ export default function Home() {
 
       setFileSystem((currentTree) =>
         addNodeToFolder(currentTree, selectedFolderId, newFile),
+      );
+
+      setExpandedFolderIds((currentIds) =>
+        currentIds.includes(selectedFolderId)
+          ? currentIds
+          : [...currentIds, selectedFolderId],
       );
     }
 
@@ -175,6 +206,8 @@ export default function Home() {
     setFileSystem((currentTree) =>
       updateFileContent(currentTree, fileId, content),
     );
+
+    setSaveMessage("saved");
   };
 
   const handleReset = () => {
@@ -189,6 +222,7 @@ export default function Home() {
     setSelectedFolderId("root");
     setOpenedFileId(null);
     setExpandedFolderIds(["root"]);
+    setSaveMessage("");
   };
 
   const getModalTitle = () => {
@@ -204,8 +238,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen  items-center justify-center  flex  bg-[radial-gradient(circle_at_top_left,#dbeafe,transparent_28%),radial-gradient(circle_at_bottom_right,#e0e7ff,transparent_30%),linear-gradient(135deg,#f8fafc,#eef2ff)] p-4 text-slate-900 md:p-6">
-      <div className="mx-auto items-center h-full justify-center flex max-w-375 flex-col gap-5 lg:grid lg:grid-cols-[320px_1fr]">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#dbeafe,transparent_28%),radial-gradient(circle_at_bottom_right,#e0e7ff,transparent_30%),linear-gradient(135deg,#f8fafc,#eef2ff)] p-4 text-slate-900 md:p-6">
+      <div className="mx-auto flex min-h-[calc(100vh-32px)] max-w-375 flex-col gap-5 md:min-h-[calc(100vh-48px)] lg:grid lg:grid-cols-[320px_1fr]">
         <Sidebar
           fileSystem={fileSystem}
           selectedFolderId={selectedFolderId}
@@ -216,7 +250,7 @@ export default function Home() {
           onOpenFile={openFile}
         />
 
-        <div className="space-y-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-5">
           <Toolbar
             selectedFolderName={selectedFolder.name}
             totalItems={selectedFolderItemsCount}
@@ -225,7 +259,7 @@ export default function Home() {
             onReset={handleReset}
           />
 
-          <div className="grid gap-5 xl:grid-cols-[1fr_430px]">
+          <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[1fr_430px]">
             <MainPanel
               selectedFolder={selectedFolder}
               onOpenFolder={openFolder}
@@ -236,8 +270,12 @@ export default function Home() {
 
             <FileEditor
               file={openedFile}
+              saveMessage={saveMessage}
               onSave={handleSaveFile}
-              onClose={() => setOpenedFileId(null)}
+              onClose={() => {
+                setOpenedFileId(null);
+                setSaveMessage("");
+              }}
             />
           </div>
         </div>
