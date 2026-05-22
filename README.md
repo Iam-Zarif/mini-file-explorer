@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini File Explorer
 
-## Getting Started
+A small file manager UI built for the Webbly Media task.
 
-First, run the development server:
+## What I implemented
+
+- Sidebar tree view for folders and files
+- Expand/collapse folder navigation
+- Main panel for selected folder contents
+- Create, rename, delete operations for folders and files
+- Text file editor with save support
+- Local state + mock JSON data, no backend required
+- Responsive UI using Next.js, TypeScript, and Tailwind CSS
+
+## Code approach
+
+- `src/data` holds the mock file system data
+- `src/utils/fileTree.ts` manages tree operations and state updates
+- `src/components` contains reusable UI pieces:
+  - `Sidebar` for folder tree navigation
+  - `MainPanel` for listing folder contents
+  - `FileEditor` for editing text files
+  - `Toolbar` for action buttons
+  - `TreeItem` for folder/file nodes
+
+## Development flow
+
+1. Scaffolded the Next.js app and added TypeScript + Tailwind
+2. Built the folder/file tree model and tree rendering
+3. Added CRUD actions and selection state
+4. Implemented file editing and save behavior
+5. Polished responsive layout and UX
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Live demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+https://mini-file-explorer-mostofafatin.vercel.app/
